@@ -16,6 +16,8 @@ import pygame
 #   pygame.display.update()
 
 def start_screen(win):
+    import sys
+
     font=pygame.font.SysFont("comicsans", 50)
     small_font=pygame.font.SysFont("comicsans", 30)
 
@@ -36,6 +38,10 @@ def start_screen(win):
         pygame.display.update()
 
         for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
             if event.type==pygame.KEYDOWN:
                 if event.key==pygame.K_1:
                     return "easy"
