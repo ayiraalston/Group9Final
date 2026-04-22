@@ -1,6 +1,9 @@
 # board.py
 import pygame
 
+from sudoku import draw_button
+
+
 # ---------- START SCREEN ----------
 
 # The start_screen(win) function MUST be called in sudoku [dot] py.
@@ -19,23 +22,30 @@ import pygame
 
 def start_screen(win):
     import sys
+    pygame.font.init()
 
-    font=pygame.font.SysFont("comicsans", 50)
-    small_font=pygame.font.SysFont("comicsans", 30)
+    font=pygame.font.SysFont("comicsans", 60)
+    button_font=pygame.font.SysFont("comicsans", 30)
+
+    # Buttons for the difficulty levels on the start screen
+
+    easy_rect=pygame.Rect(170,220,200,60)
+    medium_rect=pygame.Rect(170,300,200,60)
+    hard_rect=pygame.Rect(170,380,200,60)
 
     while True:
         win.fill((255,255,255)) #Background color
 
-        #Difficulty levels
-        title=font.render("Sudoku Game", True, (0,0,0))
-        easy=small_font.render("1 - Easy", True, (0,0,0))
-        medium=small_font.render("2 - Medium", True, (0,0,0))
-        hard=small_font.render("3 - Hard", True, (0,0,0))
+        # The title
 
-        win.blit(title, (180,100))
-        win.blit(easy, (180, 250))
-        win.blit(medium, (180, 300))
-        win.blit(hard,(180, 350))
+        title=font.render("Sudoku Game", True, (0,0,0))
+        win.blit(title, (180, 100))
+
+        # Button design
+
+        draw_button(win, "Easy", easy_rect, button_font)
+        draw_button(win, "Medium", medium_rect, button_font)
+        draw_button(win, "Hard", hard_rect, button_font)
 
         pygame.display.update()
 
@@ -44,12 +54,13 @@ def start_screen(win):
                 pygame.quit()
                 sys.exit()
 
-            if event.type==pygame.KEYDOWN:
-                if event.key==pygame.K_1:
+            if event.type==pygame.MOUSEBUTTONDOWN:
+                mouse_pos=event.pos
+                if easy_rect.collidepoint(mouse_pos):
                     return "easy"
-                elif event.key==pygame.K_2:
+                if medium_rect.collidepoint(mouse_pos):
                     return "medium"
-                elif event.key==pygame.K_3:
+                if hard_rect.collidepoint(mouse_pos):
                     return "hard"
 
 # ---------- THE BOARD ----------
@@ -101,6 +112,16 @@ class Board:
         self.difficulty=difficulty
         self.cells=[[Cell(board[i][j],i,j,screen) for j in range(9)] for i in range(9)]
         self.selected=None
+        self.original=[[board[i][j] for j in range(9)] for i in range(9)]
+
+    # Added function reset_to_original for sudoku[dot]py button 'Reset.'
+
+    def reset_to_original(self):
+        for i in range(9):
+            for j in range(9):
+                self.cells[i][j].value=self.original[i][j]
+                self.cells[i][j].sketched_value=0
+
     def draw(self):
         gap=self.width//9
 
