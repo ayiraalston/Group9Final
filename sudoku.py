@@ -191,8 +191,7 @@ def main():
                 if restart_rect.collidepoint(event.pos):
                     print("Clicked restart button")
                     # Create new game (new game function)
-                    board_data = generate_sudoku(9, removed_cells)
-                    board = Board(BOARD_SIZE, BOARD_SIZE, win, difficulty, board_data)
+                    difficulty = start_screen(win)
 
                 # Check if clicked exit button
                 if exit_rect.collidepoint(event.pos):
@@ -204,7 +203,6 @@ def main():
         pygame.display.update()
 
         # Win/loss condition
-        print(board.is_full())
         if board.is_full():
             if board.check_board():
                 result = "won"
