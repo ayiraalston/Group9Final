@@ -204,6 +204,12 @@ class SudokuGenerator:
 	Parameters: None
 	Return: None
     '''
+
+    # C - In def remove_cells(self), I removed "pass"
+    # and implemented the function by designing its code. Now, the
+    # board shouldn't be full upon starting the game; there should
+    # be some empty cells.
+
     def remove_cells(self):
         count = 0
         while count < self.removed_cells:
@@ -212,6 +218,15 @@ class SudokuGenerator:
             if self.board[row][col] != 0: #dont remove same cell
                 self.board[row][col] = 0
                 count += 1
+        removed=set()
+
+        while len(removed) < self.removed_cells:
+            row=random.randint(0, self.row_length - 1)
+            col=random.randint(0, self.row_length - 1)
+
+            if self.board[row][col] != 0:
+                self.board[row][col] = 0
+                removed.add((row, col))
 
 '''
 DO NOT CHANGE
