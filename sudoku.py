@@ -2,7 +2,7 @@
 import pygame
 import sys
 
-# Import Board class and start_screen and generate_sudoku functions
+# Import Board class and start_screen, draw_button, and generate_sudoku functions
 from board import Board
 from board import start_screen
 from board import draw_button
@@ -72,7 +72,9 @@ def main():
     while True:
 
         # Clear screen to begin game session
-        win.fill((255, 255, 255))
+        # C - Instead of white, the board's background
+        #color is light blue.
+        win.fill((235, 245, 252))
 
         # Draw board
         board.draw()

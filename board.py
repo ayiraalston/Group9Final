@@ -1,16 +1,19 @@
-# board.py
 import pygame
 
-# Moved draw_button from sudoku
+# Copied draw_button, color palette, and button settings from sudoku
 
 # ── Color palette
 WHITE = (255, 255, 255)
-LIGHT_RED = (220,  80,  80)   # main background colour
+LIGHT_RED = (220,  80,  80)   # main background color
 DARK_RED = (180,  40,  40)   # deeper red for button hover
 BTN_COLOR = (255, 255, 255)   # white buttons
-BTN_HVR = (220, 220, 220)   # light grey on hover
+BTN_HVR = (220, 220, 220)   # light gray on hover
 BTN_TEXT = (0,   0,   0)     # black button text
 LINE_COLOR = (180,  60,  60)   # reddish separator line
+
+# Button settings
+BUTTON_WIDTH = 100
+BUTTON_HEIGHT = 50
 
 def draw_button(surface, text, rect, font, color=BTN_COLOR, hover_color=BTN_HVR, text_color=BTN_TEXT):
     mouse = pygame.mouse.get_pos()
@@ -26,40 +29,36 @@ def draw_button(surface, text, rect, font, color=BTN_COLOR, hover_color=BTN_HVR,
 
 # ---------- START SCREEN ----------
 
-# The start_screen(win) function MUST be called in sudoku [dot] py.
-# See the following implementation:
-
-# In sudoku.py ...
-# from board import Board
-# difficulty = start_screen(win)
- ####################### Call start_screen(win) function.
-# board_data = generate_sudoku(9, removed_cells)
-# board = Board(540, 540, win, difficulty, board_data) 
-# Call Board class from board [dot] py
-# while True:
-#   board.draw()
-#   pygame.display.update()
-
 def start_screen(win):
     import sys
     pygame.font.init()
 
-    font=pygame.font.SysFont("comicsans", 60)
-    button_font=pygame.font.SysFont("comicsans", 30)
+    # Set background image
 
-    # Buttons for the difficulty levels on the start screen
+    bg_img = pygame.image.load('bg_img.jpg').convert()
+    bg_img = pygame.transform.scale(bg_img, (1000, 700))
 
-    easy_rect=pygame.Rect(170,220,200,60)
-    medium_rect=pygame.Rect(170,300,200,60)
-    hard_rect=pygame.Rect(170,380,200,60)
+    # Set fonts
+
+    font=pygame.font.SysFont("Arial", 50)
+    sub_font = pygame.font.SysFont("Arial", 40)
+    button_font=pygame.font.SysFont("Arial", 20)
+
+    # Set difficulty-level buttons
+
+    easy_rect=pygame.Rect(100,380,BUTTON_WIDTH,BUTTON_HEIGHT)
+    medium_rect=pygame.Rect(210,380,BUTTON_WIDTH,BUTTON_HEIGHT)
+    hard_rect=pygame.Rect(320,380,BUTTON_WIDTH,BUTTON_HEIGHT)
 
     while True:
-        win.fill((255,255,255)) #Background color
 
-        # The title
+        # The title and "Select Game Mode" prompt
 
-        title=font.render("Sudoku Game", True, (0,0,0))
-        win.blit(title, (95, 100))
+        title=font.render("Welcome to Sudoku", True, (0,0,0))
+        win.blit(title, (40, 100))
+
+        sub_title = sub_font.render("Select Game Mode:", True, (0,0,0))
+        win.blit(sub_title, (85, 285))
 
         # Button design
 
@@ -82,6 +81,11 @@ def start_screen(win):
                     return "medium"
                 elif hard_rect.collidepoint(mouse_pos):
                     return "hard"
+
+        # Set start screen background image
+        win.blit(bg_img, (0, 0))
+
+        # pygame.display.update()
 
 # ---------- THE BOARD ----------
 
@@ -108,8 +112,8 @@ class Cell:
         x=self.col*gap
         y=self.row*gap
 
-        font=pygame.font.SysFont("comicsans", 30)
-        small_font=pygame.font.SysFont("comicsans", 20)
+        font=pygame.font.SysFont("Arial", 30)
+        small_font=pygame.font.SysFont("Arial", 20)
 
         if self.value!=0:
             text=font.render(str(self.value), True, (0,0,0))
