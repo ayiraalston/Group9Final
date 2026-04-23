@@ -215,9 +215,9 @@ class SudokuGenerator:
 
         while len(removed) < self.removed_cells:
             row=random.randint(0, self.row_length - 1)
-            col=random.randint(0, self.box_length - 1)
+            col=random.randint(0, self.row_length - 1)
 
-            if (row, col) not in removed:
+            if self.board[row][col] != 0:
                 self.board[row][col] = 0
                 removed.add((row, col))
 
