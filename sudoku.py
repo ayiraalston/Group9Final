@@ -119,7 +119,8 @@ def main():
 
     # Determine number of removed cells
     if difficulty == "easy":
-        removed_cells = 1
+        # removed_cells = 1 # for testing purposes and video demo
+        removed_cells = 30
 
     elif difficulty == "medium":
         removed_cells = 45
