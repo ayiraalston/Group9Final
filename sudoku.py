@@ -45,7 +45,10 @@ def game_over_screen(screen, result):
     exit_rect = pygame.Rect(width//2 - 100, height//2 + 110, 200, 50)
 
     while True:
-        screen.fill((220, 80, 80))  # background
+        if message == "You Won!":
+            screen.fill((80, 230, 80))
+        else:
+            screen.fill((220, 80, 80))  # background
 
         # Draw message
         text = font_large.render(message, True, (255, 255, 255))
@@ -116,7 +119,7 @@ def main():
 
     # Determine number of removed cells
     if difficulty == "easy":
-        removed_cells = 30
+        removed_cells = 1
 
     elif difficulty == "medium":
         removed_cells = 45
